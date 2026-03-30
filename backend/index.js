@@ -4,10 +4,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const authRoutes = require('./Routes/auth');
-const userRoutes = require('./Routes/users');
-const productRoutes = require('./Routes/products');
-const transactionRoutes = require('./Routes/transactions');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
+const productRoutes = require('./routes/products');
+const transactionRoutes = require('./routes/transactions');
 
 const app = express();
 app.use(cors()); // allow all origins for production
