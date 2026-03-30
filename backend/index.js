@@ -4,13 +4,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const productRoutes = require('./routes/products');
-const transactionRoutes = require('./routes/transactions');
+const authRoutes = require('./Routes/auth');
+const userRoutes = require('./Routes/users');
+const productRoutes = require('./Routes/products');
+const transactionRoutes = require('./Routes/transactions');
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:5173' })); // allow frontend Vite
+app.use(cors()); // allow all origins for production
 app.use(express.json());
 
 // routes
@@ -26,11 +26,12 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL)
 .then(() => {
   console.log('MongoDB connected');
-  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
 })
 .catch(err => {
   console.error('MongoDB connection error:', err);
+  process.exit(1);
 });
