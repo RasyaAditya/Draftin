@@ -1,0 +1,185 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                    🚀 MULAI DARI SINI - DATABASE FIX                          ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+MASALAH: Database tidak mau connect
+
+SOLUSI: Ikuti langkah-langkah di bawah dengan URUT!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 1: BUKA POWERSHELL SEBAGAI ADMINISTRATOR
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Tekan: Windows Key + X
+2. Pilih: Windows PowerShell (Admin)
+3. Klik: Yes jika ada popup
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 2: START MONGODB SERVICE
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy-paste command ini ke PowerShell:
+
+    Start-Service MongoDB
+
+Tunggu 3-5 detik sampai selesai.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 3: VERIFY MONGODB RUNNING
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy-paste command ini:
+
+    Get-Service MongoDB
+
+Harus muncul:
+
+    Status   Name
+    ------   ----
+    Running  MongoDB
+
+Jika masih "Stopped", jalankan:
+
+    Restart-Service MongoDB
+    Start-Sleep -Seconds 5
+    Get-Service MongoDB
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 4: TEST MONGODB CONNECTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy-paste command ini:
+
+    mongosh
+
+Jika berhasil, akan muncul prompt ">". Ketik:
+
+    exit
+
+Jika error "connection refused", tunggu 10 detik dan coba lagi.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 5: BUKA TERMINAL BARU UNTUK BACKEND
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Buka terminal baru (Ctrl + Shift + `)
+2. Jalankan:
+
+    cd backend
+    npm run dev
+
+Harus muncul:
+
+    ✅ MongoDB connected successfully
+    ✅ Server running on http://localhost:5002
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 6: BUKA TERMINAL BARU UNTUK CREATE ADMIN
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Buka terminal baru (Ctrl + Shift + `)
+2. Jalankan:
+
+    cd backend
+    npm run create-admin
+
+Harus muncul:
+
+    ✅ Admin user created successfully
+    Email: admin@draftin.com
+    Password: admin123
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 7: BUKA TERMINAL BARU UNTUK FRONTEND
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Buka terminal baru (Ctrl + Shift + `)
+2. Jalankan:
+
+    cd frontend
+    npm run dev
+
+Harus muncul:
+
+    ➜  Local:   http://localhost:5173/
+
+
+═══════════════════════════════════════════════════════════════════════════════
+LANGKAH 8: TEST LOGIN
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Buka browser
+2. Pergi ke: http://localhost:5173
+3. Klik: Login
+4. Masukkan:
+   Email: admin@draftin.com
+   Password: admin123
+5. Klik: Masuk
+
+Harus redirect ke admin dashboard ✅
+
+
+═══════════════════════════════════════════════════════════════════════════════
+JIKA MASIH ERROR
+═══════════════════════════════════════════════════════════════════════════════
+
+Jalankan diagnostic:
+
+    cd backend
+    npm run diagnose
+
+Ini akan check semua konfigurasi dan report error dengan detail.
+
+Atau baca file: FIX_DATABASE_CONNECTION.md
+
+
+═══════════════════════════════════════════════════════════════════════════════
+PENTING!
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ MongoDB HARUS running dulu sebelum start backend
+✅ Jangan close terminal - biarkan backend dan frontend running
+✅ Tunggu 5 detik setelah start MongoDB service
+✅ Lihat console output untuk error message
+
+
+═══════════════════════════════════════════════════════════════════════════════
+QUICK COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+Start MongoDB:
+    Start-Service MongoDB
+
+Check MongoDB status:
+    Get-Service MongoDB
+
+Test MongoDB:
+    mongosh
+
+Start Backend:
+    cd backend && npm run dev
+
+Create Admin:
+    cd backend && npm run create-admin
+
+Start Frontend:
+    cd frontend && npm run dev
+
+Run Diagnostic:
+    cd backend && npm run diagnose
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Sudah siap? Mulai dari LANGKAH 1!
+

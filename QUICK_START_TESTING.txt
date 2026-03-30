@@ -1,0 +1,109 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 QUICK START - Testing Pembayaran Midtrans               ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📌 LANGKAH CEPAT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  RESTART BACKEND
+   cd backend
+   npm start
+   
+   ✅ Harus muncul: "Server running on http://localhost:5002"
+
+2️⃣  JALANKAN FRONTEND (Terminal Baru)
+   cd frontend
+   npm run dev
+   
+   ✅ Harus muncul: "Local: http://localhost:5173/"
+
+3️⃣  BUKA BROWSER
+   http://localhost:5173/
+
+4️⃣  LOGIN SEBAGAI CUSTOMER
+   - Gunakan akun customer (bukan admin)
+   - Atau register akun baru
+
+5️⃣  TAMBAH PRODUK KE CART
+   - Browse produk
+   - Klik "Add to Cart"
+
+6️⃣  CHECKOUT
+   - Klik icon Cart
+   - Klik "Checkout"
+   - Popup Midtrans akan muncul
+
+7️⃣  BAYAR
+   - Pilih metode pembayaran
+   - Selesaikan pembayaran
+   - CATAT Order ID!
+
+8️⃣  CEK STATUS
+   - Buka: https://dashboard.midtrans.com/
+   - Menu "Transactions"
+   - Cari transaksi Anda
+   - Status harus "Settlement" jika berhasil
+
+9️⃣  REFRESH APLIKASI
+   - Kembali ke aplikasi
+   - Refresh halaman (F5)
+   - Status order akan update
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💳 METODE PEMBAYARAN YANG BISA DITEST:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Kartu Kredit/Debit (Paling Cepat)
+✅ GoPay
+✅ ShopeePay
+✅ QRIS
+✅ Bank Transfer (BCA, Mandiri, BNI, BRI)
+✅ Indomaret/Alfamart
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  PENTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 Ini PRODUCTION mode - menggunakan uang asli!
+🔴 Test dengan nominal kecil dulu (Rp 1.000 - 10.000)
+🔴 Status tidak otomatis update (harus refresh manual)
+🔴 Selalu cek dashboard Midtrans untuk konfirmasi
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 TROUBLESHOOTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Popup Midtrans tidak muncul
+   → Cek console browser (F12)
+   → Pastikan backend jalan
+   → Cek API keys di .env
+
+❌ Status tidak update
+   → Refresh halaman (F5)
+   → Cek dashboard Midtrans
+   → Logout-login lagi
+
+❌ Pembayaran gagal
+   → Coba kartu lain
+   → Coba metode pembayaran lain
+   → Cek saldo/limit kartu
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOKUMENTASI LENGKAP:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 TESTING_PAYMENT_GUIDE.md  → Panduan lengkap testing
+📄 PRODUCTION_CHECKLIST.md   → Checklist production
+📄 MIDTRANS_SETUP_GUIDE.md   → Setup guide
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 SELAMAT TESTING! 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

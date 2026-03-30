@@ -1,0 +1,229 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                    VISUAL DATABASE CONNECTION FIX                             ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+STEP 1: START MONGODB SERVICE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PowerShell (Admin)                                                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ PS C:\Users\rasya\Draftin> Start-Service MongoDB                            │
+│ PS C:\Users\rasya\Draftin>                                                  │
+│                                                                             │
+│ (Tunggu 3-5 detik)                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 2: VERIFY MONGODB RUNNING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PowerShell (Admin)                                                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ PS C:\Users\rasya\Draftin> Get-Service MongoDB                              │
+│                                                                             │
+│ Status   Name                                                               │
+│ ------   ----                                                               │
+│ Running  MongoDB                                                            │
+│                                                                             │
+│ ✅ GOOD! MongoDB is running                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Jika masih "Stopped":
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PS C:\Users\rasya\Draftin> Restart-Service MongoDB                          │
+│ PS C:\Users\rasya\Draftin> Start-Sleep -Seconds 5                           │
+│ PS C:\Users\rasya\Draftin> Get-Service MongoDB                              │
+│                                                                             │
+│ Status   Name                                                               │
+│ ------   ----                                                               │
+│ Running  MongoDB                                                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 3: TEST MONGODB CONNECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PowerShell                                                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ PS C:\Users\rasya\Draftin> mongosh                                          │
+│ Current Mongosh Log ID: ...                                                 │
+│ Connecting to: mongodb://127.0.0.1:27017/?directConnection=true             │
+│ MongoServerVersion: 7.0.0                                                   │
+│ test>                                                                       │
+│                                                                             │
+│ ✅ GOOD! Connected to MongoDB                                              │
+│                                                                             │
+│ Type: exit                                                                  │
+│ test> exit                                                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 4: START BACKEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Terminal (New)                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ $ cd backend                                                                │
+│ $ npm run dev                                                               │
+│                                                                             │
+│ > backend@1.0.0 dev                                                         │
+│ > nodemon index.js                                                          │
+│                                                                             │
+│ [nodemon] 2.0.22 watching path(s): *.*                                      │
+│ [nodemon] watching extensions: js,json                                      │
+│ [nodemon] starting `node index.js`                                          │
+│ ✅ MongoDB connected successfully                                           │
+│ 📍 Database: mongodb://127.0.0.1:27017/DraftinDB                            │
+│ ✅ Server running on http://localhost:5002                                  │
+│ 🔗 CORS enabled for: http://localhost:5173                                  │
+│ 📊 Health check: http://localhost:5002/api/health                           │
+│                                                                             │
+│ ✅ GOOD! Backend is running                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Jika error "ECONNREFUSED":
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ❌ MongoDB connection error: connect ECONNREFUSED 127.0.0.1:27017           │
+│ Make sure MongoDB is running on mongodb://127.0.0.1:27017/DraftinDB         │
+│                                                                             │
+│ SOLUSI:                                                                     │
+│ 1. Buka PowerShell Admin                                                    │
+│ 2. Jalankan: Start-Service MongoDB                                          │
+│ 3. Tunggu 5 detik                                                           │
+│ 4. Coba lagi: npm run dev                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 5: CREATE ADMIN USER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Terminal (New)                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ $ cd backend                                                                │
+│ $ npm run create-admin                                                      │
+│                                                                             │
+│ > backend@1.0.0 create-admin                                                │
+│ > node utils/createAdmin.js                                                 │
+│                                                                             │
+│ ✅ Admin user created successfully                                          │
+│ Email: admin@draftin.com                                                    │
+│ Password: admin123                                                          │
+│                                                                             │
+│ ✅ GOOD! Admin user created                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 6: START FRONTEND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Terminal (New)                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ $ cd frontend                                                               │
+│ $ npm run dev                                                               │
+│                                                                             │
+│ VITE v4.5.0 ready in 234 ms                                                 │
+│                                                                             │
+│ ➜  Local:   http://localhost:5173/                                         │
+│ ➜  press h to show help                                                     │
+│                                                                             │
+│ ✅ GOOD! Frontend is running                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+STEP 7: TEST LOGIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Browser                                                                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ 1. Open: http://localhost:5173                                              │
+│                                                                             │
+│ 2. Click: Login button                                                      │
+│                                                                             │
+│ 3. Enter:                                                                   │
+│    Email: admin@draftin.com                                                 │
+│    Password: admin123                                                       │
+│                                                                             │
+│ 4. Click: Masuk                                                             │
+│                                                                             │
+│ 5. Result: Redirects to Admin Dashboard                                     │
+│                                                                             │
+│ ✅ SUCCESS! Login works                                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+FINAL CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ MongoDB service running
+✅ MongoDB connection working
+✅ Backend running on port 5002
+✅ Admin user created
+✅ Frontend running on port 5173
+✅ Login works
+✅ Redirects to admin dashboard
+
+
+TERMINAL LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Terminal 1: PowerShell (Admin)                                               │
+│ ├─ Start-Service MongoDB                                                    │
+│ └─ Get-Service MongoDB → Running                                            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Terminal 2: Backend                                                          │
+│ ├─ cd backend                                                               │
+│ ├─ npm run dev                                                              │
+│ └─ ✅ Server running on http://localhost:5002                              │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Terminal 3: Admin                                                            │
+│ ├─ cd backend                                                               │
+│ ├─ npm run create-admin                                                     │
+│ └─ ✅ Admin user created                                                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Terminal 4: Frontend                                                         │
+│ ├─ cd frontend                                                              │
+│ ├─ npm run dev                                                              │
+│ └─ ➜  Local:   http://localhost:5173/                                      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Browser: Test                                                                │
+│ ├─ http://localhost:5173                                                    │
+│ ├─ Login: admin@draftin.com / admin123                                      │
+│ └─ ✅ Admin Dashboard                                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+COMMON ERRORS & QUICK FIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Error: "ECONNREFUSED"
+Fix: Start-Service MongoDB
+
+Error: "Port 27017 already in use"
+Fix: taskkill /PID <PID> /F
+
+Error: "Cannot find module"
+Fix: npm install
+
+Error: "MONGO_URL undefined"
+Fix: Check backend/.env
+
+Error: "Service not found"
+Fix: Install MongoDB
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Ready? Follow the steps above! 🚀
+

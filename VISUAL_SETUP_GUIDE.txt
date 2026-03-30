@@ -1,0 +1,316 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                    DRAFTIN E-COMMERCE PLATFORM                                ║
+║                      LOGIN SETUP & TROUBLESHOOTING                             ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ QUICK START (5 MINUTES)                                                        │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+TERMINAL 1: Start MongoDB
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ $ Start-Service MongoDB                                                     │
+│ $ Get-Service MongoDB                                                       │
+│ Status : Running                                                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    ↓ (Wait 2 sec)
+
+TERMINAL 2: Start Backend
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ $ cd backend                                                                │
+│ $ npm run dev                                                               │
+│                                                                             │
+│ ✅ MongoDB connected successfully                                           │
+│ 📍 Database: mongodb://127.0.0.1:27017/DraftinDB                           │
+│ ✅ Server running on http://localhost:5002                                 │
+│ 🔗 CORS enabled for: http://localhost:5173                                 │
+│ 📊 Health check: http://localhost:5002/api/health                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    ↓ (Wait 2 sec)
+
+TERMINAL 3: Create Admin User
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ $ cd backend                                                                │
+│ $ npm run create-admin                                                      │
+│                                                                             │
+│ ✅ Admin user created successfully                                          │
+│ Email: admin@draftin.com                                                    │
+│ Password: admin123                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    ↓ (Wait 1 sec)
+
+TERMINAL 4: Start Frontend
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ $ cd frontend                                                               │
+│ $ npm run dev                                                               │
+│                                                                             │
+│ VITE v4.5.0 ready in 234 ms                                                │
+│ ➜  Local:   http://localhost:5173/                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    ↓ (Wait 2 sec)
+
+BROWSER: Test Login
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1. Open: http://localhost:5173                                              │
+│ 2. Click: "Login" button                                                    │
+│ 3. Enter:                                                                   │
+│    Email: admin@draftin.com                                                 │
+│    Password: admin123                                                       │
+│ 4. Click: "Masuk"                                                           │
+│ 5. Result: ✅ Redirects to Admin Dashboard                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+✅ SUCCESS! Your app is now running!
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ SYSTEM ARCHITECTURE                                                            │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+                          ┌─────────────────────┐
+                          │   BROWSER (5173)    │
+                          │  Frontend (Vue.js)  │
+                          └──────────┬──────────┘
+                                     │
+                    HTTP Requests    │    JSON Responses
+                    (CORS enabled)   │
+                                     ▼
+                          ┌─────────────────────┐
+                          │  BACKEND (5002)     │
+                          │  Express.js + JWT   │
+                          └──────────┬──────────┘
+                                     │
+                    MongoDB Driver   │    Query Results
+                                     │
+                                     ▼
+                          ┌─────────────────────┐
+                          │  MONGODB (27017)    │
+                          │  DraftinDB          │
+                          │  - Users            │
+                          │  - Products         │
+                          │  - Orders           │
+                          │  - Complaints       │
+                          └─────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING DECISION TREE                                                  │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+                    Can you login?
+                          │
+                ┌─────────┴─────────┐
+                │                   │
+              YES                  NO
+                │                   │
+                ▼                   ▼
+            ✅ SUCCESS!      What error?
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+        "server tidak"   "Email tidak"  "Password
+         dapat dihubungi" ditemukan"     salah"
+            │               │               │
+            ▼               ▼               ▼
+        Backend not     Admin user      Wrong
+        running or      not created     password
+        MongoDB down
+            │               │               │
+            ▼               ▼               ▼
+        npm run dev    npm run         Check:
+                       create-admin    - Caps lock
+                                       - admin123
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ IMPORTANT INFORMATION                                                          │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+PORTS:
+  Backend:   5002
+  Frontend:  5173
+  MongoDB:   27017
+
+CREDENTIALS:
+  Email:     admin@draftin.com
+  Password:  admin123
+  Role:      admin
+
+DATABASE:
+  Name:      DraftinDB
+  URL:       mongodb://127.0.0.1:27017/DraftinDB
+
+ENDPOINTS:
+  Health:    http://localhost:5002/api/health
+  Login:     http://localhost:5002/api/auth/login
+  Register:  http://localhost:5002/api/auth/register
+  Frontend:  http://localhost:5173
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ COMMON COMMANDS                                                                │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+BACKEND:
+  cd backend
+  npm install              # Install dependencies
+  npm run dev             # Start development server
+  npm run create-admin    # Create admin user
+  npm run diagnose        # Run diagnostic check
+
+FRONTEND:
+  cd frontend
+  npm install             # Install dependencies
+  npm run dev            # Start development server
+
+MONGODB:
+  Start-Service MongoDB   # Start MongoDB service
+  Get-Service MongoDB     # Check MongoDB status
+  Stop-Service MongoDB    # Stop MongoDB service
+
+TESTING:
+  curl http://localhost:5002/api/health
+  curl -X POST http://localhost:5002/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d "{\"email\":\"admin@draftin.com\",\"password\":\"admin123\"}"
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ VERIFICATION CHECKLIST                                                         │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+SETUP:
+  ☐ MongoDB installed
+  ☐ Node.js installed (v14+)
+  ☐ npm installed
+
+BACKEND:
+  ☐ Dependencies installed: npm install
+  ☐ .env file configured
+  ☐ Backend running: npm run dev
+  ☐ Health check works: http://localhost:5002/api/health
+  ☐ Admin user created: npm run create-admin
+
+FRONTEND:
+  ☐ Dependencies installed: npm install
+  ☐ Frontend running: npm run dev
+  ☐ Page loads: http://localhost:5173
+
+LOGIN:
+  ☐ Login page appears
+  ☐ Can enter credentials
+  ☐ Login button works
+  ☐ No error messages
+  ☐ Redirects to admin dashboard
+
+SUCCESS:
+  ☐ All checks passed
+  ☐ Login working
+  ☐ Admin dashboard visible
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ DOCUMENTATION FILES                                                            │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+START HERE:
+  📄 README_LOGIN_FIX.md
+     - Quick TL;DR
+     - Complete overview
+     - Step-by-step guide
+
+DETAILED GUIDES:
+  📄 LOGIN_ISSUE_RESOLUTION.md
+     - Comprehensive setup
+     - Detailed troubleshooting
+     - All important info
+
+  📄 BACKEND_SETUP_TROUBLESHOOTING.md
+     - Backend setup steps
+     - Common issues
+     - API reference
+
+QUICK REFERENCE:
+  📄 QUICK_SETUP_CHECKLIST.md
+     - Quick checklist
+     - All steps in order
+     - Success indicators
+
+TESTING:
+  📄 TEST_LOGIN_ENDPOINT.md
+     - How to test backend
+     - PowerShell examples
+     - Expected responses
+
+VISUAL GUIDES:
+  📄 SETUP_FLOWCHART.md
+     - Visual flowcharts
+     - Decision trees
+     - Startup sequence
+
+SUMMARY:
+  📄 WORK_COMPLETED_SUMMARY.md
+     - What was fixed
+     - What was created
+     - Next steps
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ EMERGENCY COMMANDS                                                             │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+If everything is broken:
+
+1. Kill all Node processes:
+   taskkill /F /IM node.exe
+
+2. Stop MongoDB:
+   Stop-Service MongoDB
+
+3. Start MongoDB:
+   Start-Service MongoDB
+
+4. Clear npm cache:
+   npm cache clean --force
+
+5. Reinstall backend:
+   cd backend
+   rm -r node_modules package-lock.json
+   npm install
+
+6. Reinstall frontend:
+   cd frontend
+   rm -r node_modules package-lock.json
+   npm install
+
+7. Run diagnostic:
+   cd backend
+   npm run diagnose
+
+8. Start fresh:
+   npm run dev (in backend)
+   npm run dev (in frontend)
+
+
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ NEXT STEPS                                                                     │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+Once login is working:
+
+1. ✅ Test register new user
+2. ✅ Test add to cart
+3. ✅ Test checkout
+4. ✅ Test admin dashboard
+5. ✅ Test complaint submission
+6. ✅ Test payment with Midtrans
+7. ✅ Deploy to production
+
+
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║  Follow the guides above and your login should work perfectly!                 ║
+║                                                                                ║
+║  Questions? Check the documentation files or run: npm run diagnose             ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝

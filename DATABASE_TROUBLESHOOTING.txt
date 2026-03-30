@@ -1,0 +1,293 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║                    DATABASE TROUBLESHOOTING GUIDE                             ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+PROBLEM 1: "connect ECONNREFUSED 127.0.0.1:27017"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: MongoDB service tidak running
+
+Solusi:
+    1. Buka PowerShell sebagai Administrator
+    2. Jalankan: Start-Service MongoDB
+    3. Tunggu 5 detik
+    4. Verify: Get-Service MongoDB
+    5. Harus muncul: Status = Running
+    6. Coba lagi: npm run dev
+
+
+PROBLEM 2: "MongoServerError: connect ECONNREFUSED"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: MongoDB service crashed atau belum fully started
+
+Solusi:
+    1. Stop MongoDB:
+       Stop-Service MongoDB
+    
+    2. Tunggu 3 detik:
+       Start-Sleep -Seconds 3
+    
+    3. Start MongoDB:
+       Start-Service MongoDB
+    
+    4. Tunggu 5 detik:
+       Start-Sleep -Seconds 5
+    
+    5. Verify:
+       Get-Service MongoDB
+    
+    6. Coba lagi:
+       npm run dev
+
+
+PROBLEM 3: "getaddrinfo ENOTFOUND 127.0.0.1"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: Network issue atau MongoDB tidak accessible
+
+Solusi:
+    1. Check MongoDB status:
+       Get-Service MongoDB
+    
+    2. Jika Stopped, start:
+       Start-Service MongoDB
+    
+    3. Test koneksi:
+       mongosh
+    
+    4. Jika error, restart:
+       Restart-Service MongoDB
+       Start-Sleep -Seconds 5
+    
+    5. Coba lagi:
+       npm run dev
+
+
+PROBLEM 4: "MongoNetworkError: failed to connect to server"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: Port 27017 conflict atau MongoDB crashed
+
+Solusi:
+    1. Check port 27017:
+       netstat -ano | findstr :27017
+    
+    2. Jika ada process lain, kill:
+       taskkill /PID <PID> /F
+       (ganti <PID> dengan nomor yang muncul)
+    
+    3. Restart MongoDB:
+       Stop-Service MongoDB
+       Start-Sleep -Seconds 3
+       Start-Service MongoDB
+       Start-Sleep -Seconds 5
+    
+    4. Verify:
+       Get-Service MongoDB
+    
+    5. Coba lagi:
+       npm run dev
+
+
+PROBLEM 5: "MongoDB service not found"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: MongoDB belum terinstall
+
+Solusi:
+    1. Download MongoDB Community Edition:
+       https://www.mongodb.com/try/download/community
+    
+    2. Install dengan default settings
+    
+    3. Restart komputer
+    
+    4. Verify:
+       Get-Service MongoDB
+    
+    5. Start:
+       Start-Service MongoDB
+
+
+PROBLEM 6: "MONGO_URL not found in .env"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: .env file tidak ada atau tidak lengkap
+
+Solusi:
+    1. Check file backend/.env
+    
+    2. Harus berisi:
+       PORT=5002
+       MONGO_URL=mongodb://127.0.0.1:27017/DraftinDB
+       JWT_SECRET=rahasia_super_aman
+    
+    3. Jika tidak ada, buat file baru dengan isi di atas
+    
+    4. Save dan restart backend:
+       npm run dev
+
+
+PROBLEM 7: "Cannot find module 'mongoose'"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: Dependencies tidak terinstall
+
+Solusi:
+    1. Go to backend folder:
+       cd backend
+    
+    2. Install dependencies:
+       npm install
+    
+    3. Tunggu sampai selesai
+    
+    4. Start backend:
+       npm run dev
+
+
+PROBLEM 8: "Port 5002 already in use"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penyebab: Backend sudah running atau port conflict
+
+Solusi:
+    1. Check port 5002:
+       netstat -ano | findstr :5002
+    
+    2. Kill process:
+       taskkill /PID <PID> /F
+       (ganti <PID> dengan nomor yang muncul)
+    
+    3. Start backend:
+       npm run dev
+
+
+═══════════════════════════════════════════════════════════════════════════════
+DIAGNOSTIC FLOWCHART
+═══════════════════════════════════════════════════════════════════════════════
+
+                    Backend Error?
+                          │
+                ┌─────────┴─────────┐
+                │                   │
+            "connect          "Cannot find
+            ECONNREFUSED"      module"
+                │                   │
+                ▼                   ▼
+            MongoDB not         Dependencies
+            running             not installed
+                │                   │
+                ▼                   ▼
+            Start-Service       npm install
+            MongoDB
+
+
+═══════════════════════════════════════════════════════════════════════════════
+QUICK FIX COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+# Start MongoDB
+Start-Service MongoDB
+
+# Restart MongoDB
+Restart-Service MongoDB
+
+# Check MongoDB status
+Get-Service MongoDB
+
+# Test MongoDB connection
+mongosh
+
+# Check port 27017
+netstat -ano | findstr :27017
+
+# Kill process on port 27017
+taskkill /PID <PID> /F
+
+# Kill process on port 5002
+taskkill /PID <PID> /F
+
+# Install dependencies
+npm install
+
+# Run diagnostic
+npm run diagnose
+
+# Start backend
+npm run dev
+
+# Create admin
+npm run create-admin
+
+
+═══════════════════════════════════════════════════════════════════════════════
+VERIFICATION CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+Before starting backend, verify:
+
+☐ MongoDB service running
+  Command: Get-Service MongoDB
+  Expected: Status = Running
+
+☐ Port 27017 listening
+  Command: netstat -ano | findstr :27017
+  Expected: TCP 127.0.0.1:27017 LISTENING
+
+☐ Can connect to MongoDB
+  Command: mongosh
+  Expected: Prompt ">"
+
+☐ .env file exists
+  File: backend/.env
+  Expected: Contains MONGO_URL
+
+☐ Dependencies installed
+  Folder: backend/node_modules
+  Expected: Folder exists
+
+☐ Backend starts
+  Command: npm run dev
+  Expected: "✅ MongoDB connected successfully"
+
+
+═══════════════════════════════════════════════════════════════════════════════
+IF ALL ELSE FAILS
+═══════════════════════════════════════════════════════════════════════════════
+
+Run diagnostic:
+    cd backend
+    npm run diagnose
+
+This will check:
+    ✅ Environment variables
+    ✅ Required files
+    ✅ Dependencies
+    ✅ MongoDB connection
+    ✅ Database collections
+    ✅ Admin user
+
+And report any issues with solutions.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+IMPORTANT NOTES
+═══════════════════════════════════════════════════════════════════════════════
+
+1. MongoDB MUST be running before starting backend
+2. Wait 5 seconds after starting MongoDB service
+3. Don't close terminal - keep backend running
+4. Check console output for error messages
+5. If error persists, run diagnostic script
+6. Read error message carefully - it usually tells you the problem
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Need help? Read: MULAI_DARI_SINI.txt or FIX_DATABASE_CONNECTION.md
+

@@ -1,0 +1,28 @@
+{
+  "name": "project-cleanup-tool",
+  "version": "1.0.0",
+  "description": "A CLI tool to clean up messy project structures by removing duplicate, redundant, and obsolete files",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll=false",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=test/unit --watchAll=false",
+    "test:property": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=test/property --watchAll=false",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --watchAll=false"
+  },
+  "keywords": [
+    "cleanup",
+    "file-management",
+    "project-organization",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fast-check": "^3.15.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
