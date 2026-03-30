@@ -3,7 +3,7 @@ nixPkgs = ["nodejs_20"]
 nixLibs = []
 
 [phases.install]
-cmds = ["cd backend && rm -rf node_modules && npm install"]
+cmds = ["cd backend && rm -rf node_modules && npm install && npm rebuild bcrypt --build-from-source"]
 
 [phases.build]
 cmds = []
