@@ -3,10 +3,10 @@ nixPkgs = ["nodejs_20"]
 nixLibs = []
 
 [phases.install]
-cmds = ["npm install --prefix Backend-Draftin-Clean"]
+cmds = ["npm install --prefix backend"]
 
 [phases.build]
 cmds = []
 
 [start]
-cmd = "cd Backend-Draftin-Clean && node index.js"
+cmd = "cd backend && node index.js"
