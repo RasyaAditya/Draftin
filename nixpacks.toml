@@ -1,9 +1,9 @@
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+nixPkgs = ["nodejs_20", "python3"]
 nixLibs = []
 
 [phases.install]
-cmds = ["cd backend && rm -rf node_modules && npm install && npm rebuild bcrypt --build-from-source"]
+cmds = ["cd backend && rm -rf node_modules && npm install"]
 
 [phases.build]
 cmds = []
