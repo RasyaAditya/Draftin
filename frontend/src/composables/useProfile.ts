@@ -27,8 +27,9 @@ export const useProfile = () => {
 
   const getPhotoUrl = () => {
     if (!currentUser.value?.photo) return null
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5002'
     // Add timestamp to prevent caching
-    return `http://localhost:5002${currentUser.value.photo}?t=${photoRefreshKey.value}`
+    return `${apiUrl}${currentUser.value.photo}?t=${photoRefreshKey.value}`
   }
 
   return {
