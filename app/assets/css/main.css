@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — palet editorial netral + 1 aksen.
+ * Diekspos sebagai CSS variable murni (dipakai lewat @theme di bawah)
+ * supaya bisa di-switch di runtime untuk dark mode tanpa duplikasi kelas.
+ */
+:root {
+  --color-surface: #faf8f5;
+  --color-surface-raised: #ffffff;
+  --color-ink: #1c1a17;
+  --color-ink-muted: #6b6560;
+  --color-line: #e4e0d9;
+  --color-accent: #b5502c;
+  --color-accent-ink: #fff7f2;
+}
+
+:root[data-theme="dark"] {
+  --color-surface: #16140f;
+  --color-surface-raised: #1f1c16;
+  --color-ink: #f2ede4;
+  --color-ink-muted: #a49d92;
+  --color-line: #322d24;
+  --color-accent: #e08a5b;
+  --color-accent-ink: #1c1006;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-surface: #16140f;
+    --color-surface-raised: #1f1c16;
+    --color-ink: #f2ede4;
+    --color-ink-muted: #a49d92;
+    --color-line: #322d24;
+    --color-accent: #e08a5b;
+    --color-accent-ink: #1c1006;
+  }
+}
+
+@theme {
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-line: var(--color-line);
+  --color-accent: var(--color-accent);
+  --color-accent-ink: var(--color-accent-ink);
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
